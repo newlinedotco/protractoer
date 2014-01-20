@@ -1,0 +1,37 @@
+<div id="home">
+  <div id="repoform" class="main" ng-if="!repoName">
+    <form ng-submit="getIssues()" class="input-group">
+      <div class="input-group">
+        <input type="text" ng-model='repo.name' placeholder='Enter repo name' />
+        <span class="input-group-btn">
+          <input type="submit" class="btn btn-primary" value="Search">
+        </span>
+      </div>
+    </form>
+  </div>
+
+  <div class="issues" ng-if='repoName'>
+    <h2>Issues for {{ repoName }}</h2>
+
+    <div ng-repeat="d in data | orderBy:created_at:false">
+      <div class="issue" ng-class="{
+          'open': d.state == 'open',
+          'odd': $index%2
+        }">
+        <h4 class="number" ng-bind="d.number"></h4>
+        <div class="user">
+          <a href="{{ d.user.url }}">
+          <img ng-src="{{ d.user.avatar_url }}" alt="" class="avatar" />
+          <h4 ng-bind="d.user.login"></h4>
+          </a>
+        </div>
+        <a href="{{d.html_url}}"><h4 class="title" ng-bind="d.title"></h4></a>
+        <ul>
+          <li ng-repeat="l in d.labels" class="label" style="background-color:#{{ l.color }}">
+            {{ l.name }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
